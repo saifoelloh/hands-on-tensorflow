@@ -38,6 +38,16 @@ model = tf.keras.models.Sequential([
 #     tf.keras.layers.Dense(5, activation=tf.nn.softmax)
 # ])
 
+# # Adding new layer between first, and second layer
+# # ------------------------------------------
+# # Adding new layer increase your predict, but in the simple case, there's no significant value
+# model = tf.keras.models.Sequential([
+#     tf.keras.layers.Flatten(),
+#     tf.keras.layers.Dense(512, activation=tf.nn.relu),
+#     tf.keras.layers.Dense(256, activation=tf.nn.relu),
+#     tf.keras.layers.Dense(5, activation=tf.nn.softmax)
+# ])
+
 model.compile(
     optimizer = 'adam',
     loss = 'sparse_categorical_crossentropy',
