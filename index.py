@@ -11,8 +11,16 @@ mnist = tf.keras.datasets.fashion_mnist
 # print(training_labels[0])
 # print(training_images[0])
 
-training_images = training_images / 255.0
-test_images = test_images / 255.0
+class myClass(tf.keras.callbacks.Callback):
+    """callbacks to stop epochs"""
+    def on_epoch_end(self, epoch, logs={}):
+        if logs.get('acc')>0.89:
+            print("\nReach 89% accuracy so cancelling training")
+            self.model.stop_training = True
+
+callbacks = myClass()
+training_images /= 255.0
+test_images /= 255.0
 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(),
@@ -44,7 +52,7 @@ model = tf.keras.models.Sequential([
 # model = tf.keras.models.Sequential([
 #     tf.keras.layers.Flatten(),
 #     tf.keras.layers.Dense(512, activation=tf.nn.relu),
-#     tf.keras.layers.Dense(256, activation=tf.nn.relu),
+#     tf.keras.layers.Dense(248, activation=tf.nn.relu),
 #     tf.keras.layers.Dense(5, activation=tf.nn.softmax)
 # ])
 
@@ -54,7 +62,7 @@ model.compile(
     metrics = ['accuracy']
 )
 
-model.fit(training_images, training_labels, epochs=5)
+model.fit(training_images, training_labels, epochs=5, callbacks=[callbacks])
 # model.evaluate(test_images, test_labels)
 
 classification = model.predict(test_images)
